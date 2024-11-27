@@ -1,0 +1,54 @@
+create database Veterinario;
+use Veterinario;
+
+create table medicos (
+id_medico int auto_increment primary key,
+nome varchar (200),
+setor varchar (100),
+telefone varchar (15),
+email varchar (200)
+);
+
+create table animais (
+id_animal int auto_increment primary key,
+especie varchar (100),
+raca varchar (100),
+data_nascimento datetime,
+sexo varchar (50)
+);
+
+create table Clientes (
+id_cliente int auto_increment primary key,
+nome varchar (200),
+telefone varchar (200),
+email varchar (100),
+id_animal int,
+foreign key (id_animal) references animais(id_animal)
+);
+
+create table Consultas (
+id_consulta int auto_increment primary key,
+diagnostico varchar (200),
+id_medico int,
+id_animal int,
+foreign key (id_medico) references medicos(id_medico),
+foreign key (id_animal) references animais(id_animal)
+);
+
+create table tratamentos (
+id_tratamento int auto_increment primary key,
+id_consulta int,
+descricao TEXT,
+medicamento varchar (200),
+dose varchar (300),
+foreign key (id_consulta) references Consultas(id_consulta)
+);
+
+create table pagamentos (
+id_pagamento int auto_increment primary key,
+id_consulta int,
+valor decimal(10,2),
+data_pagamento datetime,
+metodo_pagamento enum('Dinheiro','Cartão','Pix'),
+foreign key(id_consulta) references Consultas(id_consulta)
+);
